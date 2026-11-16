@@ -1,0 +1,6 @@
+# Large Docker image archives
+*.tar
+
+# Temporary files
+*.tmp
+*.log
