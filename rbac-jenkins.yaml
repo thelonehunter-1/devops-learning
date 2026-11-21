@@ -17,6 +17,11 @@ rules:
     resources: ["services"]
     verbs: ["get", "list", "watch", "create", "update", "patch"]
 
+  # Manage application configmaps
+  - apiGroups: [""]
+    resources: ["configmaps"]
+    verbs: ["get", "list", "watch", "create", "update", "patch"]
+
   # Read Pods for deployment verification
   - apiGroups: [""]
     resources: ["pods"]
