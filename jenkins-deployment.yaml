@@ -43,7 +43,40 @@ spec:
           volumeMounts:
             - name: jenkins-home
               mountPath: /var/jenkins_home
+
+        - name: buildkitd
+          image: moby/buildkit:v0.20.2-rootless
+          imagePullPolicy: IfNotPresent
+          args:
+            - --addr
+            - tcp://0.0.0.0:1234
+            - --oci-worker-no-process-sandbox
+            - --oci-worker-snapshotter=native
+          ports:
+            - name: buildkit
+              containerPort: 1234
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            runAsNonRoot: true
+            seccompProfile:
+              type: Unconfined
+            appArmorProfile:
+              type: Unconfined
+          volumeMounts:
+            - name: buildkit-cache
+              mountPath: /home/user/.local/share/buildkit
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+            limits:
+              cpu: 1
+              memory: 2Gi
+
       volumes:
         - name: jenkins-home
           persistentVolumeClaim:
             claimName: jenkins-home
+        - name: buildkit-cache
+          emptyDir: {}
