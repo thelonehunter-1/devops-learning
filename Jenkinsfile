@@ -44,8 +44,7 @@ pipeline {
 
                         AUTH=$(printf '%s' "$DOCKERHUB_USR:$DOCKERHUB_PSW" | base64 -w 0)
 
-                        printf '%s' "{\"auths\":{\"https://index.docker.io/v1/\":{\"auth\":\"$AUTH\"}}}" \
-                            > "$DOCKER_CONFIG/config.json"
+                        printf '{"auths":{"https://index.docker.io/v1/":{"auth":"%s"}}}' "$AUTH" > "$DOCKER_CONFIG/config.json"
 
                         chmod 600 "$DOCKER_CONFIG/config.json"
 
